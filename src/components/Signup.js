@@ -46,7 +46,7 @@ e.preventDefault();
 
             <br /> 
 
-            <form>
+            <form onSubmit={this.signup} >
             <div className="form-group">
               <label> Name</label>
               <input type="text" onChange={this.onChangeHandler.bind(this)} name="userName" className="form-control" id="exampleInputName" aria-describedby="emailHelp" placeholder="Enter User Name" />
@@ -59,7 +59,7 @@ e.preventDefault();
               <label>Password</label>
               <input type="password" onChange={this.onChangeHandler.bind(this)} name="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
             </div>
-            <button type="button" className="btn btn-primary inline" onClick={this.signup}>Submit</button>
+            <button type="submit" className="btn btn-primary inline" onClick={this.signup}>Submit</button>
             {/* <br />
             <br />
             <br /> */}

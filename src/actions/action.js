@@ -91,6 +91,7 @@ export function submitToDo(todo) {
 
         dispatch({ type: ActionTypes.TODO, payload: Todo })
         dispatch({type: ActionTypes.DELTE, payload: true})
+        
         // console.log("Action Dispatched for Todo");
 
         // todo.map((todo, index) => {

@@ -19,22 +19,24 @@ class Home extends React.Component {
   }
 
   onChangeHandler(e) {
-    // console.log(this.state.todo)
+    console.log(this.state.todo)
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }
     )
+
   }
 
-  submit(ev) {
+  submit = (ev) => {
+    ev.preventDefault();
     // console.log("Todo", this.state.todo)
     // let arrTodo = this.state.todo.push()
-    let todo = this.state.todo
+    
+    // let todo = this.state.todo
     // eslint-disable-next-line
-    let arrTodo = this.state.todoArr.push(todo);
-    // console.log(this.props)
+    let arrTodo = this.state.todoArr.push(this.state.todo);
+    console.log(this.state)
     firebase.database().ref('todos/ ' + this.props.uid).set(this.state.todoArr);
-
 
     this.props.submit(this.state.todoArr)
     // console.log(this.state.todo)
@@ -77,7 +79,7 @@ class Home extends React.Component {
   }
   render() {
 
-    // console.log(this.props)
+    // console.log(this.props.todo)
     return (
       <div className="firstdiv">
         <h2 className="heading">Todo</h2>
@@ -85,15 +87,18 @@ class Home extends React.Component {
         <br />
         <div className="form-group">
           {////////////////////////
+          
 
             (this.props.isAuth) ?
               <div>
-                {/* <label>Add ToDo</label> */}
 
-                <input type="text" onChange={this.onChangeHandler.bind(this)} name="todo" className="form-control input" id="formGroupExampleInput" placeholder="Add Todo" />
-
+                <form onSubmit={this.submit} >
+                <input type="text" onChange={this.onChangeHandler.bind(this)} name="todo" className="form-control input" id="formGroupExampleInput" placeholder="Add Todo">
+                </input>
+                 
                 <br />
-                <button type="button" className="btn btn-primary" onClick={this.submit.bind(this)}>Add</button>
+                <button type="submit" className="btn btn-primary" onClick={this.submit}>Add</button>
+                </form>
                 <br />
                 <br />
 
@@ -102,14 +107,15 @@ class Home extends React.Component {
               </div>
           }
           {
-            (this.props.delete) ?
-              <div>
-                <button onClick={this.deleteAll.bind(this)} >Delete</button>
+            
+            // (this.props.delete) ?
+            //   <div>
+            //     <button onClick={this.deleteAll.bind(this)} >Delete</button>
                 
-              </div>
+            //   </div>
 
-              : 
-              ''
+            //   : 
+            //   ''
 
 
 
@@ -125,6 +131,8 @@ class Home extends React.Component {
             // <h1>{`Welcome ${this.props.user.email}`}</h1>
             // console.log(this.props.user.email)
 
+          
+
             this.state.todoArr.map((todo, index) => {
               return (
                 <div key={index} >
@@ -139,25 +147,31 @@ class Home extends React.Component {
                     <li className="card-text inline">{todo}</li>
                     <button className="btn btn-secondary btn-sm inline" onClick={() => { this.deleteToDo(index) }}>Delete</button>
                     <button className="btn btn-secondary btn-sm inline" onClick={() => { this.editToDo(index, todo) }}>Edit</button>
+                    
                   </div>
                 </div>
+                // this.setState({
+                //   todo : '',
+
+                // })
               )
             })
-
           }
 
         </div>
       </div>
     )
   }
-
-
-
+  
+  
+  
 }
+
 
 function mapStateToProp(state) {
   // console.log(state)
   return ({
+    userName: state.root.userName,
     user: state.root.currentUser,
     todo: state.root.todo,
     uid: state.root.currentUserUid,
