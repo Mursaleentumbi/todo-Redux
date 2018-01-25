@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { submitToDo } from '../actions/action'
 import './Comp.css';
+import firebase from 'firebase'
 
 class Home extends React.Component {
 
@@ -24,13 +26,15 @@ class Home extends React.Component {
     )
   }
 
-  submit() {
+  submit(ev) {
     // console.log("Todo", this.state.todo)
     // let arrTodo = this.state.todo.push()
     let todo = this.state.todo
     // eslint-disable-next-line
-    let arrTodo = this.state.todoArr.push(todo)
+    let arrTodo = this.state.todoArr.push(todo);
     // console.log(this.props)
+    firebase.database().ref('todos/ ' + this.props.uid).set(this.state.todoArr);
+
 
     this.props.submit(this.state.todoArr)
     // console.log(this.state.todo)
@@ -41,9 +45,14 @@ class Home extends React.Component {
   deleteToDo(i) {
     // console.log(i)
     this.state.todoArr.splice(i, 1);
-    this.setState({
-      update: ''
+    let currentUser = firebase.auth().currentUser.uid;
+    console.log(firebase.database().ref('todos'))
+    firebase.database().ref('todos/' + currentUser  + i).remove(i).then(()=>{
+      console.log('Deleted from database');
     })
+              this.setState({
+                update: ''
+              })
   }
 
   editToDo(i, todoText) {
@@ -53,6 +62,17 @@ class Home extends React.Component {
     }
     this.setState({
       update: ''
+    })
+    // let currentUser = firebase.auth().currentUser.uid;    
+    // firebase.database().ref('todos/' + currentUser + i).update({i} ).then(()=>{
+    //   console.log('Updated in Database')
+    // })
+  }
+
+  deleteAll(){
+    let currentUser = firebase.auth().currentUser.uid;
+    firebase.database().ref('todos/' + currentUser).remove().then(()=>{
+      console.log("All deleted")
     })
   }
   render() {
@@ -66,13 +86,6 @@ class Home extends React.Component {
         <div className="form-group">
           {////////////////////////
 
-            // {(prop.authReducer.isError) ?
-            //   <div className="alert alert-danger" role="alert">
-            //       {prop.authReducer.errorMessage}
-            //   </div>
-            //   : ""
-            // }
-
             (this.props.isAuth) ?
               <div>
                 {/* <label>Add ToDo</label> */}
@@ -80,19 +93,31 @@ class Home extends React.Component {
                 <input type="text" onChange={this.onChangeHandler.bind(this)} name="todo" className="form-control input" id="formGroupExampleInput" placeholder="Add Todo" />
 
                 <br />
-                <button type="button" className="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
+                <button type="button" className="btn btn-primary" onClick={this.submit.bind(this)}>Add</button>
                 <br />
                 <br />
 
               </div>
-              : "Please Log in"
+              : <div> <h3>Please <button className="btn black" ><Link to="/signin">Sign In</Link></button></h3>
+              </div>
+          }
+          {
+            (this.props.delete) ?
+              <div>
+                <button onClick={this.deleteAll.bind(this)} >Delete</button>
+                
+              </div>
+
+              : 
+              ''
+
 
 
             /////////////////////////}
           }
 
 
-          {console.log(this.props)}
+          {/* {console.log(this.props)} */}
 
           {
 
@@ -113,7 +138,7 @@ class Home extends React.Component {
                   <div className="card-body">
                     <li className="card-text inline">{todo}</li>
                     <button className="btn btn-secondary btn-sm inline" onClick={() => { this.deleteToDo(index) }}>Delete</button>
-                  <button className="btn btn-secondary btn-sm inline" onClick={() => { this.editToDo(index, todo) }}>Edit</button>
+                    <button className="btn btn-secondary btn-sm inline" onClick={() => { this.editToDo(index, todo) }}>Edit</button>
                   </div>
                 </div>
               )
@@ -135,9 +160,10 @@ function mapStateToProp(state) {
   return ({
     user: state.root.currentUser,
     todo: state.root.todo,
-    uid: state.root.uid,
+    uid: state.root.currentUserUid,
     allUsers: state.root.allUsers,
-    isAuth: state.root.isAuth
+    isAuth: state.root.isAuth,
+    delete: state.root.delete,
   })
 
 }

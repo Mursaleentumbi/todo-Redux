@@ -21,3 +21,9 @@
 .margin{
     margin: 20px;
 }
+.black{
+    background-color: white;
+}
+.black:hover{
+    background-color: black;
+}

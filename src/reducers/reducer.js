@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     currentUser: '',
     currentUserUid: '',
     todo: '',
-    isAuth: false
+    isAuth: false,
+    delete: false
 }
 
 
@@ -44,6 +45,13 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 currentUserUid: action.payload
             })
+            case ActionTypes.DELTE:
+            // console.log(state)
+            return ({
+                ...state,
+                delete: true
+            })
+
         // case ActionTypes.ALLUSERS:
         //     console.log(state)
         //     return ({

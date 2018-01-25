@@ -24,10 +24,10 @@ export function signupAction(user) {
                 // console.log('User Signed Up');
 
                 delete user.password
-
+                
                 firebase.database().ref('users/' + createdUser.uid + '/').set(user);
                 dispatch({ type: ActionTypes.USERNAME, payload: user })
-                history.push('/home')
+                history.push('/signin')
 
             })
         //
@@ -65,9 +65,9 @@ export function signinAction(users) {
         firebase.auth().signInWithEmailAndPassword(users.email, users.password)
             .then(() => {
 
-                let currentUser = firebase.auth().currentUser.uid
+                let currentUserUid = firebase.auth().currentUser.uid
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: users })
-                dispatch({ type: ActionTypes.CURRENTUSER_UID, payload: currentUser })
+                dispatch({ type: ActionTypes.CURRENTUSER_UID, payload: currentUserUid })
                 dispatch({ type: ActionTypes.ISAUTH, payload: true })
 
                 history.push('/home');
@@ -84,10 +84,13 @@ export function submitToDo(todo) {
 
         let Todo = []
         Todo.push(todo);
-        let user = firebase.auth().currentUser.uid;
-        firebase.database().ref(`todo/ ${user}`).push(Todo);
+        // let user = firebase.auth().currentUser.uid;
+        // firebase.database().ref('users/' + createdUser.uid + '/').set(user);
+        
+        // firebase.database().ref(`todo/ ${user}`).push(Todo);
 
         dispatch({ type: ActionTypes.TODO, payload: Todo })
+        dispatch({type: ActionTypes.DELTE, payload: true})
         // console.log("Action Dispatched for Todo");
 
         // todo.map((todo, index) => {
