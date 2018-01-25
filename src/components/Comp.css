@@ -1,0 +1,23 @@
+.heading{
+    text-align: center;
+}
+
+.input{
+    width: 30%;
+}
+
+.firstdiv{
+    margin: 10px;
+    /* width: 50%;
+    height: 50%; */
+    /* margin: 0 auto; */
+}
+
+.inline{
+    margin-left: 20px;
+    display: inline-block
+}
+
+.margin{
+    margin: 20px;
+}

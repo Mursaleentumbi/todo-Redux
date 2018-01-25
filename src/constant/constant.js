@@ -3,7 +3,8 @@ const ActionTypes = {
     CURRENTUSER: 'CURRENTUSER',
     TODO: 'TODO',
     CURRENTUSER_UID: 'CURRENTUSER_UID',
-    ALLUSERS: "ALLUSERS"
+    ALLUSERS: "ALLUSERS",
+    ISAUTH: "ISAUTH"
 }
 
 export default ActionTypes;

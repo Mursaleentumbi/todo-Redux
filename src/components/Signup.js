@@ -39,7 +39,13 @@ e.preventDefault();
 
     render() {
         return (
-            <div>
+
+            
+            <div className="margin">
+            <h2 className="heading">Sign Up</h2>
+
+            <br /> 
+
             <form>
             <div className="form-group">
               <label> Name</label>
@@ -53,11 +59,11 @@ e.preventDefault();
               <label>Password</label>
               <input type="password" onChange={this.onChangeHandler.bind(this)} name="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
             </div>
-            <button type="button" className="btn btn-primary" onClick={this.signup}>Submit</button>
+            <button type="button" className="btn btn-primary inline" onClick={this.signup}>Submit</button>
+            {/* <br />
             <br />
-            <br />
-            <br />
-            <Link to="/signin">Sign In</Link>
+            <br /> */}
+            <button className="btn inline"><Link to="/signin">Sign In</Link></button>
           </form>
           </div>
              

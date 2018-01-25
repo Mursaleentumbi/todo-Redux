@@ -68,6 +68,7 @@ export function signinAction(users) {
                 let currentUser = firebase.auth().currentUser.uid
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: users })
                 dispatch({ type: ActionTypes.CURRENTUSER_UID, payload: currentUser })
+                dispatch({ type: ActionTypes.ISAUTH, payload: true })
 
                 history.push('/home');
 

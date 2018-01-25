@@ -31,7 +31,12 @@ class Signin extends React.Component {
 
     render() {
         return (
-            <div>
+
+            
+            <div className="margin">
+            <h2 className="heading">Sign In for Todo</h2>
+
+            <br />
                 <form>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Email</label>

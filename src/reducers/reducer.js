@@ -5,12 +5,19 @@ const INITIAL_STATE = {
     currentUser: '',
     currentUserUid: '',
     todo: '',
+    isAuth: false
 }
 
 
 export default (state = INITIAL_STATE, action) => {
     // console.log(state)
     switch (action.type) {
+
+        case ActionTypes.ISAUTH:
+        return({
+            ...state,
+            isAuth: true
+        })
 
         case ActionTypes.USERNAME:
             // console.log(state)
